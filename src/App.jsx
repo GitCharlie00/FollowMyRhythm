@@ -310,7 +310,7 @@ const ChitarraTrainer = () => {
         {isPlaying && !countInDone && (
           <div className="mb-8 text-center">
             <div className="inline-block bg-gradient-to-r from-yellow-400 to-orange-500 rounded-2xl px-16 py-8 shadow-2xl animate-pulse">
-              <div className="text-white/70 text-lg mb-2">PREPARATI</div>
+              <div className="text-white/70 text-lg mb-2">PREPÀRATI</div>
               <div className="text-8xl font-black text-white">{countInBeat}</div>
             </div>
           </div>
@@ -331,7 +331,7 @@ const ChitarraTrainer = () => {
           </div>
         )}
 
-        {/* Pattern Visivo - FIX: Pallino unico in alto a sinistra */}
+        {/* Pattern Visivo - FIX: Pallino unico */}
         {(!isPlaying || countInDone) && (
           <div className="mb-8 overflow-x-auto overflow-y-hidden py-8 px-4 scrollbar-hide">
             <div className="flex gap-4 justify-center min-w-max mx-auto w-fit p-4">
@@ -341,7 +341,6 @@ const ChitarraTrainer = () => {
                 return (
                   <div key={index} className={`relative rounded-2xl p-6 transition-all duration-150 flex-shrink-0 w-24 ${isActive ? 'bg-gradient-to-br from-green-400 to-emerald-500 scale-110 shadow-2xl shadow-green-500/50' : isPast ? 'bg-white/20' : 'bg-white/10'} ${move.isFirst ? 'ring-4 ring-yellow-400' : ''}`}>
                     
-                    {/* PALLINO BEAT: Giallo se è il primo, Trasparente se è un altro */}
                     <div className={`absolute -top-3 -left-3 text-xs font-bold rounded-full w-7 h-7 flex items-center justify-center z-10 ${move.isFirst ? 'bg-yellow-400 text-black' : 'bg-white/30 text-white'}`}>
                       {move.beat}
                     </div>
@@ -369,20 +368,34 @@ const ChitarraTrainer = () => {
           </div>
         </div>
 
-        {/* Pulsanti */}
-        <div className="flex flex-wrap gap-4 justify-center">
-          <button onClick={togglePlay} className={`flex items-center gap-2 px-8 py-4 rounded-xl font-bold text-lg transition-all transform hover:scale-105 shadow-xl ${isPlaying ? 'bg-gradient-to-r from-red-500 to-pink-600' : 'bg-gradient-to-r from-green-500 to-emerald-600'} text-white`}>
-            {isPlaying ? <Pause size={24} /> : <Play size={24} />} {isPlaying ? 'PAUSA' : 'PLAY'}
-          </button>
-          <button onClick={reset} className="flex items-center gap-2 px-8 py-4 rounded-xl font-bold text-lg bg-white/10 hover:bg-white/20 text-white transition-all transform hover:scale-105 shadow-xl">
-            <RotateCcw size={24} /> RESET
-          </button>
-          <button onClick={() => setSoundEnabled(!soundEnabled)} className={`flex items-center gap-2 px-6 py-4 rounded-xl font-bold text-sm transition-all transform hover:scale-105 shadow-xl ${soundEnabled ? 'bg-gradient-to-r from-blue-500 to-cyan-600 text-white' : 'bg-white/10 text-white/50'}`}>
-            {soundEnabled ? <Volume2 size={20} /> : <VolumeX size={20} />} <span className="hidden sm:inline">CLICK</span>
-          </button>
-          <button onClick={() => setChordSoundEnabled(!chordSoundEnabled)} className={`flex items-center gap-2 px-6 py-4 rounded-xl font-bold text-sm transition-all transform hover:scale-105 shadow-xl ${chordSoundEnabled ? 'bg-gradient-to-r from-purple-500 to-pink-600 text-white' : 'bg-white/10 text-white/50'}`}>
-            🎸 <span className="hidden sm:inline">ACCORDI</span>
-          </button>
+        {/* Controlli & Modulazione Velocità - REINSERITO */}
+        <div className="space-y-6">
+          
+          {/* Sezione BPM (Modulazione Velocità) */}
+          <div className="bg-white/5 rounded-xl p-6">
+            <div className="text-white/70 text-sm mb-3 text-center">VELOCITÀ (BPM)</div>
+            <div className="flex items-center justify-center gap-4">
+              <button onClick={() => adjustBpm(-5)} className="bg-white/10 hover:bg-white/20 text-white rounded-lg px-4 py-2 font-bold transition-all">-5</button>
+              <div className="text-4xl font-black text-white w-24 text-center">{bpm}</div>
+              <button onClick={() => adjustBpm(5)} className="bg-white/10 hover:bg-white/20 text-white rounded-lg px-4 py-2 font-bold transition-all">+5</button>
+            </div>
+          </div>
+
+          {/* Pulsanti */}
+          <div className="flex flex-wrap gap-4 justify-center">
+            <button onClick={togglePlay} className={`flex items-center gap-2 px-8 py-4 rounded-xl font-bold text-lg transition-all transform hover:scale-105 shadow-xl ${isPlaying ? 'bg-gradient-to-r from-red-500 to-pink-600' : 'bg-gradient-to-r from-green-500 to-emerald-600'} text-white`}>
+              {isPlaying ? <Pause size={24} /> : <Play size={24} />} {isPlaying ? 'PAUSA' : 'PLAY'}
+            </button>
+            <button onClick={reset} className="flex items-center gap-2 px-8 py-4 rounded-xl font-bold text-lg bg-white/10 hover:bg-white/20 text-white transition-all transform hover:scale-105 shadow-xl">
+              <RotateCcw size={24} /> RESET
+            </button>
+            <button onClick={() => setSoundEnabled(!soundEnabled)} className={`flex items-center gap-2 px-6 py-4 rounded-xl font-bold text-sm transition-all transform hover:scale-105 shadow-xl ${soundEnabled ? 'bg-gradient-to-r from-blue-500 to-cyan-600 text-white' : 'bg-white/10 text-white/50'}`}>
+              {soundEnabled ? <Volume2 size={20} /> : <VolumeX size={20} />} <span className="hidden sm:inline">CLICK</span>
+            </button>
+            <button onClick={() => setChordSoundEnabled(!chordSoundEnabled)} className={`flex items-center gap-2 px-6 py-4 rounded-xl font-bold text-sm transition-all transform hover:scale-105 shadow-xl ${chordSoundEnabled ? 'bg-gradient-to-r from-purple-500 to-pink-600 text-white' : 'bg-white/10 text-white/50'}`}>
+              🎸 <span className="hidden sm:inline">ACCORDI</span>
+            </button>
+          </div>
         </div>
 
         {/* Legenda */}
